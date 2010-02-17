@@ -285,7 +285,7 @@
 					else wfunc();
 				};
 
-				if (queueExec && !scripts_loading) onlyQueue(fn);
+				if (queueExec && scripts_loading) onlyQueue(fn);
 				else queueAndExecute(fn);
 				return e;
 			}
