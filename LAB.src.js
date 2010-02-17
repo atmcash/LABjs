@@ -215,7 +215,14 @@
 				if (scripts[src_uri] != nNULL && scripts[src_uri][sPRELOADDONE] && !scripts[src_uri][sDONE] && same_domain) {
 					// this script was preloaded via XHR, but is a duplicate, and dupes are not allowed
 					handleScriptLoad(nNULL,scripts[src_uri],bTRUE); // mark the entry as done and check if chain group is done
-				}
+                                } /* suggested fix by Ran Grushkowsky
+                                   * from http://www.ATMCash.com
+                                   */
+                                else {
+                                    scripts_loading = bTRUE;
+                                    ready = bTRUE;
+                                    waitFunc();
+                                }
 				return;
 			}
 			if (scripts[src_uri] == nNULL) scripts[src_uri] = {};
@@ -285,7 +292,7 @@
 					else wfunc();
 				};
 
-				if (queueExec && scripts_loading) onlyQueue(fn);
+				if (queueExec && !scripts_loading) onlyQueue(fn);
 				else queueAndExecute(fn);
 				return e;
 			}
